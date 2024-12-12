@@ -5,7 +5,7 @@ function App() {
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState(null);
 
-  // Generate image from backend
+  // Backend Function call
   async function generateImage(prompt) {
     try {
       const response = await fetch('http://localhost:5000/api/images/generate', {
@@ -18,7 +18,7 @@ function App() {
 
       if (response.ok) {
         const data = await response.json();
-        setGeneratedImage(data.image_url); // Save image URL to state
+        setGeneratedImage(data.image_url);
       } else {
         const errorData = await response.json();
         console.error('Error:', errorData);
@@ -28,7 +28,6 @@ function App() {
     }
   }
 
-  // Download the image
   const handleDownloadImage = () => {
     if (generatedImage) {
       const link = document.createElement('a');
@@ -38,12 +37,10 @@ function App() {
     }
   };
 
-  // Placeholder for upload to Pinata (Pinata configuration will be done later)
   const handleUploadToPinata = () => {
-    alert('Upload to Pinata functionality will be added soon!');
+    alert('Adding functionality soon!');
   };
 
-  // Event handler for Generate button
   const handleGenerateClick = () => {
     if (prompt.trim()) {
       generateImage(prompt);
