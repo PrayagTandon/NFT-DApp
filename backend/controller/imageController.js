@@ -76,4 +76,24 @@ const uploadToPinata = async (req, res) => {
     }
 };
 
-module.exports = { generateImage, uploadToPinata };
+const fetchImage = async (req, res) => {
+    const { imageUrl } = req.query;
+
+    if (!imageUrl) {
+        return res.status(400).json({ error: 'Image URL is required' });
+    }
+
+    try {
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch image: ${response.statusText}`);
+        }
+        res.setHeader('Content-Type', response.headers.get('Content-Type'));
+        response.body.pipe(res);
+    } catch (error) {
+        console.error('Fetch Image Error:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { generateImage, uploadToPinata, fetchImage };
